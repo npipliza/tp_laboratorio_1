@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utn.h"
 
 #ifndef ARRAYEMPLEADOS_H_
 #define ARRAYEMPLEADOS_H_
 
-#define MAX_CHARS_CADENAS 30
-#define T 2
 #define LIBRE 0
 #define OCUPADO 1
 #define BAJA -1
@@ -42,6 +41,9 @@ void InicializarEmpleados(eEmpleados listaEmpleados[], int TAM);
  * @return numero de ID asignado.
  */
 int  obtenerIDdeEmpleado(void);
+
+int verListaEmpleados(eEmpleados listaEmpleados[], int TAM);
+void informesSalarios(eEmpleados listaEmpleados[], int TAM);
 
 /************************************************************************************/
 /**

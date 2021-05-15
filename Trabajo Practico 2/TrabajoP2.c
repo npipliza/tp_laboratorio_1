@@ -6,19 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "arrayEmpleados.h"
-#include "validaciones_TP2.h"
-#define  TamE 1000
+#include "utn.h"
+#define  TamE 3 // 1000 empleados
 int mostrarOpciones;
 
 
- /**
- * @fn int main(void)
- * @brief
- *
- * @return 0
- */
 int main(void)
 {
 	int mostrarOpciones;
@@ -100,7 +93,6 @@ int main(void)
 
 			//MOSTRAR EMPLEADOS ORDENADOS POR APELLIDO
 			case 5://1. Listado de los empleados ordenados alfabéticamente por Apellido y Sector.
-				//criterioDeOrdenamiento = 1; //PEDIR CRITERIO DE ORDENAMIENTO
 				printf("\n * SELECCIONE: \n 1: A-Z \n 2: Z-A \n");
 				scanf("%d", &opciones);
 
@@ -120,7 +112,14 @@ int main(void)
 
 			//INFORMAR TOTAL Y PROMEDIO DE SALARIOS / CANTIDAD DE EMPLEADOS QUE SUPERAN EL PROMEDIO.
 			case 6:
-				mostrarTodosLosEmpleados(empleado, TamE);
+				if(criterioDeOrdenamiento != 0)
+				{
+					informesSalarios(empleado, TamE);
+				}
+				else
+				{
+					printf("\n * CANCELADO\n");
+				}
 				system("pause");
 			break;
 		}//fin switch mostrarOpciones

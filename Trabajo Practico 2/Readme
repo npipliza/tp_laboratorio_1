@@ -1,6 +1,6 @@
 1 Enunciado
-Una empresa requiere un sistema para administrar su nómina de empleados. Se sabe que
-dicha nómina bajo ninguna circunstancia superara los 1000 empleados.
+Una empresa requiere un sistema para administrar su nómina de empleados. 
+Se sabe que dicha nómina bajo ninguna circunstancia superara los 1000 empleados.
 
 Datos:
 El sistema deberá tener el siguiente menú de opciones:
@@ -172,7 +172,8 @@ Ejemplo uso:
 
 r = printEmployees(arrayEmployees, ELEMENTS);
 
-3 Cómo realizar y entregar el trabajo práctico
+3 Cómo realizar y entregar el trabajo práctico:
+
 El trabajo práctico deberá ser entregado en el repositorio de GIT correspondiente al TP2 de la
 materia.
 
@@ -187,6 +188,7 @@ hacer uso de dichas funciones para resolver la lógica del programa.
 El objetivo del siguiente trabajo es que el alumno sea capaz de demostrar que puede integrar
 los conocimientos aprendidos hasta la clase 12. Los conocimientos necesarios para la
 realización del TP son los siguientes:
+
 • Manejo de arrays.
 • Manejo de pasaje por referencia.
 • Manejo de estructuras.
