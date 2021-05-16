@@ -97,19 +97,14 @@ int buscarEmpleadoPorID(eEmpleados listaEmpleados[], int TAM, int ID)
 /************************************************************************************/
 void mostrarUnEmpleado(eEmpleados empleado)
 {
-	//int idActual = obtenerUltimoIDdeEmpleado();
-	if(empleado.isEmpty == OCUPADO)
-	{
-		printf("\nID empleado: %d | "
-			   "Nombre: %s | "
-			   "Apellido: %s | "
-			   "Salario: %.2f | "
-			   "Sector: %d \n ", empleado.idEmpleado,
-			   	   	   	   	   	 empleado.nombre,
-							     empleado.apellido,
-			   	   	   	   	     empleado.salario,
-								 empleado.sector);
-	}
+		if(empleado.isEmpty == OCUPADO)
+		{
+			printf("%2d %10s %16s  %15.2f %10d \n", empleado.idEmpleado,
+													 empleado.nombre,
+													 empleado.apellido,
+													 empleado.salario,
+													 empleado.sector);
+		}
 }
 
 /************************************************************************************/
@@ -119,7 +114,8 @@ int mostrarTodosLosEmpleados(eEmpleados listaEmpleados[], int TAM)
 	int rtn = 0;
 	int cantidad = 0;
 
-	printf("\t -----> LISTA DE EMPLEADOS <----- \n");
+	printf("\t\t -----> LISTA DE EMPLEADOS <----- \n");
+	printf("\nID \t NOMBRE\t\t APELLIDO\t SUELDO\t \tSECTOR\n");
 	//SI EXISTE EL ARRAY Y EL LIMITE ES VALIDO
 	if(listaEmpleados != NULL && TAM > 0)
 	{
@@ -148,10 +144,10 @@ eEmpleados cargarDatosEmpleado(void)
 
 	auxiliar.idEmpleado = obtenerIDdeEmpleado();
 
-	utn_getPalabra(auxiliar.nombre ,sizeof(auxiliar.nombre), "\nIngrese el nombre: \n", "\nERROR: Ingrese sólo letras. \n", 10);
-	utn_getPalabra(auxiliar.apellido ,sizeof(auxiliar.apellido ), "\nIngrese el apellido: \n", "\nERROR: Ingrese sólo letras. \n", 10);
-	utn_getNumeroFlotante(&auxiliar.salario,"\nIngrese salario: \n","\nERROR: Ingrese salario válido.\n",100,999999,10);
-	utn_getNumero(&auxiliar.sector,"\nIngrese sector: \n","\nERROR: Ingrese sector válido.\n",1,100,10);
+	utn_getPalabra(auxiliar.nombre ,sizeof(auxiliar.nombre), "\nIngrese nombre: ", "\nERROR: Ingrese sólo letras. \n", 20);
+	utn_getPalabra(auxiliar.apellido ,sizeof(auxiliar.apellido ), "Ingrese apellido: ", "\nERROR: Ingrese sólo letras. \n", 20);
+	utn_getNumeroFlotante(&auxiliar.salario,"Ingrese salario: ","\nERROR: Ingrese salario válido.\n",100,999999,10);
+	utn_getNumero(&auxiliar.sector,"Ingrese sector: ","\nERROR: Ingrese sector válido.\n",1,50,10);
 
     auxiliar.isEmpty = OCUPADO;
 
@@ -179,19 +175,19 @@ eEmpleados modificarUnEmpleado(eEmpleados empleado)
 		switch(mostrarOpciones)
 		{
 			case 1:
-				utn_getPalabra(auxiliar.nombre ,sizeof(auxiliar.nombre), "\nIngrese el nombre: \n", "\nERROR: Ingrese sólo letras. \n", 10);
+				utn_getPalabra(auxiliar.nombre ,sizeof(auxiliar.nombre), "\nIngrese nombre: ", "\nERROR: Ingrese sólo letras. \n", 20);
 			break;
 
 			case 2:
-				utn_getPalabra(auxiliar.apellido ,sizeof(auxiliar.apellido ), "\nIngrese el apellido: \n", "\nERROR: Ingrese sólo letras. \n", 10);
+				utn_getPalabra(auxiliar.apellido ,sizeof(auxiliar.apellido ), "Ingrese apellido: ", "\nERROR: Ingrese sólo letras. \n", 20);
 			break;
 
 			case 3:
-				utn_getNumeroFlotante(&auxiliar.salario,"\nIngrese salario: \n","\nERROR: Ingrese salario válido.\n",100,999999,10);
+				utn_getNumeroFlotante(&auxiliar.salario,"Ingrese salario: ","\nERROR: Ingrese salario válido.\n",100,999999,10);
 			break;
 
 			case 4:
-				utn_getNumero(&auxiliar.sector,"\nIngrese sector: \n","\nERROR: Ingrese sector válido.\n",1,100,10);
+				utn_getNumero(&auxiliar.sector,"Ingrese sector: ","\nERROR: Ingrese sector válido.\n",1,50,10);
 			break;
 		}
 
@@ -323,6 +319,7 @@ int bajaEmpleado(eEmpleados listaEmpleados[], int TAM)
 
 		if(index != -1)
 		{
+			printf("\nID \t NOMBRE\t\t APELLIDO\t SUELDO\t \tSECTOR\n");
 			mostrarUnEmpleado(listaEmpleados[index]);
 
 			printf("\n¿Confirma la baja del empleado? \n  Confirmar: 1\n  Cancelar: 2\n");
@@ -367,6 +364,15 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 								listaEmpleados[i] = listaEmpleados[j];
 								listaEmpleados[j] = aux;
 							}
+							else
+							{
+								if(listaEmpleados[j].sector > listaEmpleados[i].sector)
+								{
+									aux               = listaEmpleados[j];
+									listaEmpleados[j] = listaEmpleados[i];
+									listaEmpleados[i] = aux;
+								}
+							}
 						}
 					}
 				}
@@ -386,6 +392,15 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 								listaEmpleados[i] = listaEmpleados[j];
 								listaEmpleados[j] = aux;
 							}
+							else
+							{
+								if(listaEmpleados[j].sector > listaEmpleados[i].sector)
+								{
+									aux               = listaEmpleados[j];
+									listaEmpleados[j] = listaEmpleados[i];
+									listaEmpleados[i] = aux;
+								}
+							}
 						}
 					}
 				}
@@ -394,6 +409,7 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 
 			default:
 				//CRITERIO DE ORDENAMIENTO MAL INGRESADO
+				printf("ERROR al cargar criterio de ordenamiento.\n");
 				rtn = 0;
 			break;
 		}//fin funcion switch
@@ -401,11 +417,10 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 	return rtn;
 }
 
-
-
 /************************************************************************************/
-void informesSalarios(eEmpleados listaEmpleados[], int len)
+int informeSalarios(eEmpleados listaEmpleados[], int len)
 {
+	int rtn              = 0;
 	int   i;
 	float acumuladorS    = 0;
 	int   contadorE      = 0;
@@ -426,8 +441,8 @@ void informesSalarios(eEmpleados listaEmpleados[], int len)
 
 	promedio = acumuladorS / contadorE;
 
-	printf("PROMEDIO DE SUELDOS: %.2f\n", promedio);
-	printf("SUMA TOTAL DE SALARIOS: %.2f\n", acumuladorS);
+	printf("\nPROMEDIO DE SALARIOS: $ %.2f\n", promedio);
+	printf("SUMA TOTAL DE SALARIOS: $ %.2f\n", acumuladorS);
 
 	for(i = 0; i < len; i++)
 	{
@@ -436,8 +451,7 @@ void informesSalarios(eEmpleados listaEmpleados[], int len)
 			superaPromedio ++;
 		}
 	}
-	printf("Empleados con sueldo por encima del promedio: %d \n", superaPromedio);
+	printf("EMPLEADOS CON SUELDO POR ENCIMA DEL PROMEDIO: %d \n", superaPromedio);
+
+	return rtn;
 }
-
-
-

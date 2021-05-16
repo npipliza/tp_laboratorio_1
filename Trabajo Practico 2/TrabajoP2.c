@@ -8,9 +8,8 @@
 #include <string.h>
 #include "arrayEmpleados.h"
 #include "utn.h"
-#define  TamE 3 // 1000 empleados
+#define  TamE 1000 // 1000 empleados
 int mostrarOpciones;
-
 
 int main(void)
 {
@@ -25,19 +24,18 @@ int main(void)
 	eEmpleados empleado[TamE];
 	InicializarEmpleados(empleado, TamE);
 
-	printf("INICIO... \n");
+	printf("INICIO PROGRAMA ADMINISTRADOR DE NÓMINA DE EMPLEADOS... \n");
 	do//creo bucle del menu
 	{
-		printf("\nINGRESE UNA OPCIÓN: ***********************************************\n"
-			   "1. ALTA Empleado.\n"
-			   "2. BAJA Empleado.\n"
-			   "3. MODIFICAR Empleado.\n"
-			   "4. MOSTRAR TOTAL Empleados.\n"
-		       "5. MOSTRAR Empleados ordenados por APELLIDO.\n"
-			   "6. INFORME salarios.\n"
-			   "0. SALIR\n"
-			   "Elija una opción: \n");
-		scanf("%d", &mostrarOpciones);
+		mostrarOpciones = PedirEntero("\nINGRESE UNA OPCIÓN: ***********************************************\n"
+									  "1. ALTA Empleado.\n"
+									  "2. BAJA Empleado.\n"
+									  "3. MODIFICAR Empleado.\n"
+				   	   	   	   	   	  "4. MOSTRAR TOTAL Empleados.\n"
+			       	   	   	   	   	  "5. MOSTRAR Empleados ordenados por APELLIDO.\n"
+									  "6. INFORME salarios.\n"
+				   	   	   	   	   	  "0. SALIR\n"
+				   	   	   	   	   	  "Elija una opción: ","\nError. Ingrese número de opción: ");
 
 		switch(mostrarOpciones)
 		{
@@ -47,12 +45,13 @@ int main(void)
 				indexUltimo = altaEmpleado(empleado, TamE);
 				if(indexUltimo != -1)
 				{
-					printf(" * EMPLEADO DADO DE ALTA EXITOSAMENTE\n");
+					printf("\n * EMPLEADO DADO DE ALTA EXITOSAMENTE\n");
+					printf("\nID \t NOMBRE\t\t APELLIDO\t SUELDO\t \tSECTOR\n");
 					mostrarUnEmpleado(empleado[indexUltimo]);
 				}
 				else
 				{
-					printf(" * ERROR. SIN ESPACIO PARA ALMACENAR MAS EMPLEADOS\n");
+					printf("\n * ERROR. SIN ESPACIO PARA ALMACENAR MAS EMPLEADOS\n");
 				}
 				system("pause");
 			break;
@@ -112,9 +111,11 @@ int main(void)
 
 			//INFORMAR TOTAL Y PROMEDIO DE SALARIOS / CANTIDAD DE EMPLEADOS QUE SUPERAN EL PROMEDIO.
 			case 6:
+				//int retorno;
+
 				if(criterioDeOrdenamiento != 0)
 				{
-					informesSalarios(empleado, TamE);
+					informeSalarios(empleado, TamE);
 				}
 				else
 				{

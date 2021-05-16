@@ -43,7 +43,7 @@ void InicializarEmpleados(eEmpleados listaEmpleados[], int TAM);
 int  obtenerIDdeEmpleado(void);
 
 int verListaEmpleados(eEmpleados listaEmpleados[], int TAM);
-void informesSalarios(eEmpleados listaEmpleados[], int TAM);
+int informeSalarios(eEmpleados listaEmpleados[], int TAM);
 
 /************************************************************************************/
 /**
@@ -58,7 +58,6 @@ int  obtenerIndexLibre(eEmpleados listaEmpleados[], int TAM);
 int  buscarEmpleadoPorID(eEmpleados listaEmpleados[], int TAM, int ID);
 void mostrarUnEmpleado(eEmpleados empleado);
 int  mostrarTodosLosEmpleados(eEmpleados listaEmpleados[], int TAM);
-//int  mostrarEmpleadosDadosDeBaja(eEmpleados listaEmpleados[], int TAM);
 
 /** SORT */
 /************************************************************************************/
@@ -66,7 +65,7 @@ int  mostrarTodosLosEmpleados(eEmpleados listaEmpleados[], int TAM);
 //CRITERIO ->  1 = MAYOR A MENOR
 int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criterio);
 
-//ABM
+/** ABM */
 /************************************************************************************/
 eEmpleados cargarDatosEmpleado(void);
 eEmpleados modificarUnEmpleado(eEmpleados empleado);

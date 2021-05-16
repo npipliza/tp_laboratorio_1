@@ -276,3 +276,35 @@ int utn_getPalabra(char* pResultado, int longitud, char mensaje[], char mensajeE
 	}
 	return retorno;
 }
+
+int ValidarNumero(char numero[])
+{
+   int valido=1;
+   for(int i=0;i<strlen(numero);i++)
+   {
+	  if(numero[i] < '0' || numero[i] > '9')
+	  {
+		  valido=0;
+	  }
+   }
+   return valido;
+}
+
+int PedirEntero(char mensaje[], char mensajeError[])
+{
+    char auxiliar[10];
+    int numeroIngresado;
+
+    printf("%s", mensaje);
+    fflush(stdin);
+    scanf("%[^\n]",auxiliar);
+    while(ValidarNumero(auxiliar)==0)
+    {
+        printf("%s", mensajeError);
+        fflush(stdin);
+        scanf("%[^\n]",auxiliar);
+    }
+     numeroIngresado=atoi(auxiliar);
+
+    return numeroIngresado;
+}

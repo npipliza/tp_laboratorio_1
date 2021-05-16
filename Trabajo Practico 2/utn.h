@@ -149,7 +149,9 @@ int esPalabra(char* palabra, int longitud);
  */
 int utn_getPalabra(char* pResultado, int longitud, char mensaje[], char mensajeError[], int reintentos);
 
+int PedirEntero(char mensaje[],char mensajeError[]);
 
+int ValidarNumero(char numero[]);
 
 
 #endif /* TP_LABORATORIO_2_TRABAJO_PRACTICO_2_UTN_H_ */
