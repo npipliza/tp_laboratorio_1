@@ -298,6 +298,7 @@ int PedirEntero(char mensaje[], char mensajeError[])
     printf("%s", mensaje);
     fflush(stdin);
     scanf("%[^\n]",auxiliar);
+
     while(ValidarNumero(auxiliar)==0)
     {
         printf("%s", mensajeError);
