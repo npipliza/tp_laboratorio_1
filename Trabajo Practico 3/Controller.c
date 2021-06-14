@@ -5,7 +5,7 @@
 #include "parser.h"
 #include "utn.h"
 
-int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
+int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
 {
     FILE* pFile;
     int retorno = 0;
@@ -20,7 +20,8 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
             fclose(pFile);
         }
     }//fin if NULL
-    return retorno;
+	controller_saveAsBinary("data.bin", pArrayListEmployee);
+	return retorno;
 }//fin funcion controller_loadFromText
 
 /* *************************************************************************************************************** */
@@ -28,21 +29,26 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 {
 	FILE* pFile;
 	int retorno = 0;
+	int liberar;
 
 	if(pArrayListEmployee != NULL)
 	{
+		get_ValidarInt(&liberar,"\nAl generar la carga del listado en modo BINARIO \nse borrarán los datos anteriores.\nIngresar: \n1- Continuar. \n2- Cancelar.","ERROR.Ingresar números:","\nError, las opciones del menú son 1 ó 2. \nIngresar: \n1- Continuar. \n2- Cancelar.",1,2);
 		pFile = fopen(path,"rb");
-
-		if(pFile != NULL)
+		do
 		{
-			retorno = parser_EmployeeFromBinary(pFile , pArrayListEmployee);
-			fclose(pFile);
-		}
-		else
-		{
-			printf("\nERROR. Archivo inexistente.\n");
-		}
+			if(pFile != NULL && liberar == 1)
+			{
+				retorno = parser_EmployeeFromBinary(pFile, pArrayListEmployee);
+				fclose(pFile);
+			}
 
+			if(pFile != NULL && liberar == 2)
+			{
+				retorno = 0;
+			   printf("\nCarga cancelada.\n");
+			}
+		}while(liberar != 1 && liberar != 2);
 	}//fin if NULL
 	return retorno;
 }//fin funcion controller_loadFromBinary
@@ -88,12 +94,17 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 {
     int indexIdAEliminar;
     int retorno = 0;
+   // Employee* empleado;
+    //
+
     indexIdAEliminar = employee_darIDdeBaja(pArrayListEmployee);
 
     if(indexIdAEliminar != -1)
     {
-        ll_remove(pArrayListEmployee,indexIdAEliminar);
+    	//empleado =
+    	ll_remove(pArrayListEmployee,indexIdAEliminar);//**//
         retorno = 1;
+      //  free(empleado);//**//
     }//fin if indexIdAEliminar
     return retorno;
 }//fin funcion controller_removeEmployee
@@ -143,7 +154,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 		switch(opcion)
 		{
 			case 1:
-				if(ll_sort(pArrayListEmployee, employee_CompareByNombre,criterio) == 0)
+				if(ll_sort(pArrayListEmployee, employee_compararPorNombre,criterio) == 0)
 				{
 					retorno = 1;
 				}
@@ -155,7 +166,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 			break;
 
 			case 2:
-				if(ll_sort(pArrayListEmployee, employee_CompareById,criterio) == 0)
+				if(ll_sort(pArrayListEmployee, employee_compararPorId,criterio) == 0)
 				{
 					retorno = 1;
 				}
@@ -167,7 +178,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 			break;
 
 			case 3:
-				if( ll_sort(pArrayListEmployee,employee_CompareBySueldo,criterio) == 0)
+				if( ll_sort(pArrayListEmployee,employee_compararPorSueldo,criterio) == 0)
 				{
 					retorno = 1;
 				}
@@ -179,7 +190,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 			break;
 
 			case 4:
-				if(ll_sort(pArrayListEmployee, employee_CompareByHoras,criterio) == 0)
+				if(ll_sort(pArrayListEmployee, employee_compararPorHoras,criterio) == 0)
 				{
 					retorno = 1;
 				}
@@ -195,7 +206,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 				return retorno;
 			break;
 		}//fin del switch
-	}while(opcion!=5);
+	}while(opcion != 5);
 
 	return retorno;
 }//fin funcion controller_sortEmployee
@@ -206,6 +217,8 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
     FILE* pFile = fopen(path,"w");
     int retorno;
     int len;
+    //ordenar por ID antes de guardar
+    ll_sort(pArrayListEmployee, employee_compararPorId,1);
 
     len = ll_len(pArrayListEmployee);
 
@@ -227,6 +240,9 @@ int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
 
     if(pFile != NULL && pArrayListEmployee != NULL)
     {
+    	//ordenar por ID antes de guardar
+    	ll_sort(pArrayListEmployee, employee_compararPorId,1);
+
         len = ll_len(pArrayListEmployee);
 
         for(i = 0; i < len; i++)

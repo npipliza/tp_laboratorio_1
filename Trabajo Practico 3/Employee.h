@@ -10,9 +10,9 @@ typedef struct
 }Employee;
 
 Employee* employee_new();
-//pasar el sueldo por set
 Employee* employee_newParametros(char* idAux,char* nombreAux,char* horasTrabajadasAux,char* sueldoAux);
-void employee_delete();
+
+void employee_delete();//hacer funcion recibe puntero empleado y free (liberar memoria y array)
 
 int employee_setId(Employee* this,int id);
 int employee_getId(Employee* this,int* id);
@@ -26,17 +26,12 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
 int employee_setSueldo(Employee* this,int sueldo);
 int employee_getSueldo(Employee* this,int* sueldo);
 
-
-//crear dos funciones mas
-
-void employee_mostrarUnEmpleado(Employee* empleado);
-int  employee_CompareBySueldo(void* , void* );
-int  employee_CompareByHoras(void* , void*);
-int  employee_CompareById(void* , void*);
-int  employee_CompareByNombre(void* e1, void* e2);
-
 /*****/
-
+void employee_mostrarUnEmpleado(Employee* empleado);
+int  employee_compararPorSueldo(void* , void* );
+int  employee_compararPorHoras(void* , void*);
+int  employee_compararPorId(void* , void*);
+int  employee_compararPorNombre(void* e1, void* e2);
 
 /** \brief Imprime todos los empleados que contiene el LinkedList*
  *

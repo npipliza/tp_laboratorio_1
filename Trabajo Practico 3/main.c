@@ -14,7 +14,13 @@ int main()
            "\n\t\t\tINICIO DEL PROGRAMA"
            "\n*********************************************************************************\n");
 
-    int option = 0;
+    int option       = 0;
+    int option1      = 0;
+    int noGuardoT    = 0;
+    int noGuardoB    = 0;
+    int cargoAMB     = 0;
+    int cargoTexto   = 0;
+    int cargoBinario = 0;
     LinkedList* listaEmpleados = ll_newLinkedList();
 
     if(listaEmpleados != NULL)
@@ -41,6 +47,7 @@ int main()
                 case 1:
                     if(controller_loadFromText("data.csv", listaEmpleados))
                     {
+                    	cargoTexto = 1;
                         printf("\nDatos cargados en MODO TEXTO exitosamente.\n");
                     }
                     else
@@ -52,13 +59,22 @@ int main()
 
                 //CARGAR ARCHIVO MODO BINARIO
                 case 2:
-                    if(controller_loadFromBinary("data.bin",listaEmpleados))
-                    {
-                        printf("\nDatos cargados en MODO BINARIO exitosamente.\n");
-					}
-					else
+                	if(ll_isEmpty(listaEmpleados) == 0)
 					{
-						printf("\nNo fue posible cargar los datos en MODO BINARIO.\n");
+
+						if(controller_loadFromBinary("data.bin",listaEmpleados) == 1)
+						{
+							cargoBinario = 1;
+							printf("\nDatos cargados en MODO BINARIO exitosamente.\n");
+						}
+						else
+						{
+							printf("\nNo fue posible cargar los datos en MODO BINARIO.\n");
+						}
+					}
+                	else
+					{
+						 printf("\nPrimero debe cargar la base de empleados (Opción 1).\n");
 					}
 					system("pause");
                 break;
@@ -70,6 +86,8 @@ int main()
 						if(controller_addEmployee(listaEmpleados))
 						{
 							printf("\nEmpleado cargado exitosamente.\n");
+							//cargoAlta = 1;
+							cargoAMB = 1;
 						}
 						else
 						{
@@ -92,6 +110,8 @@ int main()
                         if(controller_editEmployee(listaEmpleados))
                         {
                             printf("\nEmpleado modificado exitosamente.\n");
+                           // cargoModificacion = 1;
+                            cargoAMB = 1;
                         }
                         else
                         {
@@ -114,6 +134,8 @@ int main()
                         if(controller_removeEmployee(listaEmpleados))
                         {
                             printf("\nEmpleado eliminado exitosamente.\n");
+                            //cargoBaja = 1;
+                            cargoAMB = 1;
                         }
                         else
                         {
@@ -147,8 +169,6 @@ int main()
                 case 7:
                     if(ll_isEmpty(listaEmpleados) == 0)
                     {
-                    	//controller_sortEmployee(listaEmpleados);
-
                         if(controller_sortEmployee(listaEmpleados) == 1)
                         {
                             printf("\nLista ordenada exitosamente.\n");
@@ -168,9 +188,10 @@ int main()
 
                 //GUARDAR MODO TEXTO
                 case 8:
+                	noGuardoT = 1;
                     if(ll_isEmpty(listaEmpleados) == 0)
                     {
-                        if(controller_saveAsText("dataT.csv",listaEmpleados))
+                        if(controller_saveAsText("data.csv",listaEmpleados))
                         {
                             printf("\nDatos guardados exitosamente en MODO TEXTO.\n");
                         }
@@ -188,9 +209,10 @@ int main()
 
                 //GUARDAR MODO BINARIO
                 case 9:
+                	noGuardoB = 1;
                     if(ll_isEmpty(listaEmpleados) == 0)
                     {
-                        if(controller_saveAsBinary("dataB.bin",listaEmpleados))
+                        if(controller_saveAsBinary("data.bin",listaEmpleados))
                         {
                         	printf("\nDatos guardados exitosamente en MODO BINARIO.\n");
                         }
@@ -204,6 +226,39 @@ int main()
                          printf("\nNo hay empleados cargados.\n");
                     }
                     system("pause");
+                break;
+
+                //REVISAR CAMBIOS Y SALIR
+                case 10:
+                	if(cargoAMB == 1 && (noGuardoT == 0 || noGuardoB == 0))
+                	{
+						get_ValidarInt(&option1,"\nATENCIÓN, se va a finalizar el programa sin haber guardado los cambios. \nIngrese:\n1- Guardar y salir.\n2- Salir sin guardar. ","ERROR.Ingresar números:","\nError, las opciones del menú son 1 y 2. \nIngrese:\n1- Guardar y salir.\n2- Salir sin guardar.",1,2);
+						switch(option1)
+						{
+						     case 1:
+						    	 if(noGuardoT == 0 && cargoTexto == 1)
+						    	 {
+									 controller_saveAsText("data.csv",listaEmpleados);
+									 printf("Datos guardados exitosamente en MODO TEXTO.\n");
+						    	 }
+
+						    	 if(noGuardoB == 0 && cargoBinario == 1)
+						    	 {
+									 printf("Datos guardados exitosamente en MODO BINARIO.\n");
+									 controller_saveAsBinary("data.bin",listaEmpleados);
+						    	 }
+								 option = 10;
+							 break;
+
+							 case 2:
+								 option = 10;
+							 break;
+						}
+                	}
+                	else
+                	{
+                		option = 10;
+                	}
                 break;
 			}//fin switch option
         }while(option != 10);

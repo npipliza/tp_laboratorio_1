@@ -32,7 +32,7 @@ struct LinkedList
 
 
 //Publicas
-LinkedList* ll_newLinkedList(void);
+LinkedList* ll_newLinkedList(void);//
 int ll_len(LinkedList* this);
 Node* test_getNode(LinkedList* this, int nodeIndex); //
 int test_addNode(LinkedList* this, int nodeIndex,void* pElement); //

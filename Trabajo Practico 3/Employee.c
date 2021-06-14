@@ -14,7 +14,7 @@ Employee* employee_new(void)
 /* ****************************************************************************************************** */
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr)
 {
-    Employee* pEmpleado = employee_new();
+    Employee* pEmpleado;
     int  id;
     char nombre[128];
     int  horasTrabajadas;
@@ -24,7 +24,9 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
     strcpy(nombre,nombreStr);
     horasTrabajadas = atoi(horasTrabajadasStr);
     sueldo          = atof(sueldoStr);
+    pEmpleado       = employee_new();
 
+    //pasarlo a funcion
     if(pEmpleado != NULL)
     {
         if(employee_setId(pEmpleado,id))
@@ -41,7 +43,7 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
     return pEmpleado;
 }//fin funcion employee_newParametros
 
-/* ********************************************************************************** */
+/* ******************************************************************************************************** */
 int employee_setNombre(Employee* this, char* nombre)
 {
     int setteo = 0;
@@ -57,7 +59,7 @@ int employee_setNombre(Employee* this, char* nombre)
     return setteo;
 }//fin funcion employee_setNombre
 
-/* ********************************************************************************** */
+/* ******************************************************************************************************** */
 int employee_getNombre(Employee* this, char* nombre)
 {
     int retorno = 0;
@@ -127,7 +129,7 @@ int employee_setSueldo(Employee* this, int sueldo)
 {
     int setteo = 0;
 
-    if(this != NULL && sueldo < 100000)
+    if(this != NULL && sueldo > 0)
     {
         this->sueldo = sueldo;
         setteo = 1;
@@ -148,7 +150,7 @@ int employee_getSueldo(Employee* this, int* sueldo)
 }//fin funcion employee_getSueldo
 
 /* ********************************************************************************** */
-int employee_CompareBySueldo(void* e1, void* e2)
+int employee_compararPorSueldo(void* e1, void* e2)
 {
     Employee* empleado1;
     Employee* empleado2;
@@ -177,7 +179,7 @@ int employee_CompareBySueldo(void* e1, void* e2)
 }//fin funcion employee_CompareBySueldo
 
 /* ********************************************************************************** */
-int employee_CompareByHoras(void* e1, void* e2)
+int employee_compararPorHoras(void* e1, void* e2)
 {
     Employee* empleado1;
     Employee* empleado2;
@@ -206,7 +208,7 @@ int employee_CompareByHoras(void* e1, void* e2)
 }//fin funcion employee_CompareByHoras
 
 /* ********************************************************************************** */
-int employee_CompareByNombre(void* e1, void* e2)
+int employee_compararPorNombre(void* e1, void* e2)
 {
     int compara;
     Employee* empleado1;
@@ -226,7 +228,7 @@ int employee_CompareByNombre(void* e1, void* e2)
 }//fin funcion employee_CompareByNombre
 
 /* ********************************************************************************** */
-int employee_CompareById(void* e1, void* e2)
+int employee_compararPorId(void* e1, void* e2)
 {
     Employee* empleado1;
     Employee* empleado2;
@@ -296,7 +298,7 @@ int employee_darIDdeBaja(LinkedList* pListEmployee)
     int lengthListEmployee = ll_len(pListEmployee);
 
     get_ValidarInt(&idIngresado,"\nIngrese ID del empleado a dar de baja: ","\nERROR Ingrese un número: ","\ERROR.Ingrese un ID existente:",0,lengthListEmployee);
-    employee_buscarPorID(pListEmployee,idIngresado,&indexIdAEliminar );
+    employee_buscarPorID(pListEmployee,idIngresado,&indexIdAEliminar);
     if(indexIdAEliminar != -1)
     {
        retorno = indexIdAEliminar;
@@ -447,7 +449,7 @@ int guardarFormatoTexto(LinkedList* pArrayListEmployee, FILE* pFile, int len)
     int  horasTrabajadas;
     int  sueldo;
     int i;
-
+    //ll_sort(pArrayListEmployee, employee_CompareById,1);
     fprintf(pFile,"id,nombre,horasTrabajadas,sueldo\n");
 
     for(i = 0; i < len; i++)

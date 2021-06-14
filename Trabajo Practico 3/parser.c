@@ -35,6 +35,8 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 
 	if(pFile != NULL)
 	{
+		ll_clear(pArrayListEmployee);
+
 		do
 		{
 			empleado = employee_new();
