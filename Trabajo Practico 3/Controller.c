@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Employee.h"
+#include "Controller.h"
 #include "parser.h"
 #include "utn.h"
 
@@ -56,7 +57,19 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 /* *************************************************************************************************************** */
 int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
-	return employee_cargarEmpleado(pArrayListEmployee);
+	int indiceEmpleadoAlta;
+	int retorno = 0;
+
+	indiceEmpleadoAlta = employee_cargarEmpleado(pArrayListEmployee);
+
+	if(indiceEmpleadoAlta != 0)
+	{
+		ll_get(pArrayListEmployee,indiceEmpleadoAlta);
+
+		printf("\n- ID GENERADO: %d\n", indiceEmpleadoAlta);
+		retorno = 1;
+	}
+	return retorno;
 }//fin funcion controller_addEmployee
 
 /* *************************************************************************************************************** */
@@ -83,8 +96,10 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
                 retorno = 1;
             }
         }//fin if indiceEmpleadoModificar
-
     }while(opcion != 4);
+
+    printf("\n- - - - - CAMBIOS REALIZADOS - - - - -\n");
+    employee_mostrarUnEmpleado(empleadoAux);
 
     return retorno;
 }//fin funcion controller_editEmployee
@@ -94,17 +109,30 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 {
     int indexIdAEliminar;
     int retorno = 0;
-   // Employee* empleado;
+    int confirmar;
+    Employee* empleadoAux;
     //
 
-    indexIdAEliminar = employee_darIDdeBaja(pArrayListEmployee);
+    employee_darIDdeBaja(pArrayListEmployee, &indexIdAEliminar);
 
     if(indexIdAEliminar != -1)
     {
-    	//empleado =
-    	ll_remove(pArrayListEmployee,indexIdAEliminar);//**//
-        retorno = 1;
-      //  free(empleado);//**//
+    	empleadoAux = ll_get(pArrayListEmployee,indexIdAEliminar);
+         printf("\n\t- - - - - BAJA DEL EMPLEADO - - - - -\n");
+         employee_mostrarUnEmpleado(empleadoAux);
+        // printf("%d",indexIdAEliminar);
+    	 get_ValidarInt(&confirmar,"\nIngrese \n 1- Confirmar. \n 2- Cancelar ","Error.Debe ingresar un número:","\nERROR, el menú va del 1 a 2:",1,2);
+
+    			if(confirmar == 1)
+    			{
+					ll_remove(pArrayListEmployee,indexIdAEliminar);
+					retorno = 1;
+    			}
+    			if(confirmar == 2)
+    			{
+    				retorno = 0;
+    			}
+
     }//fin if indexIdAEliminar
     return retorno;
 }//fin funcion controller_removeEmployee

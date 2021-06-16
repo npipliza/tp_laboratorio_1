@@ -10,9 +10,9 @@ typedef struct
 }Employee;
 
 Employee* employee_new();
-Employee* employee_newParametros(char* idAux,char* nombreAux,char* horasTrabajadasAux,char* sueldoAux);
+Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr);
 
-void employee_delete();//hacer funcion recibe puntero empleado y free (liberar memoria y array)
+void employee_delete();
 
 int employee_setId(Employee* this,int id);
 int employee_getId(Employee* this,int* id);
@@ -26,13 +26,7 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
 int employee_setSueldo(Employee* this,int sueldo);
 int employee_getSueldo(Employee* this,int* sueldo);
 
-/*****/
-void employee_mostrarUnEmpleado(Employee* empleado);
-int  employee_compararPorSueldo(void* , void* );
-int  employee_compararPorHoras(void* , void*);
-int  employee_compararPorId(void* , void*);
-int  employee_compararPorNombre(void* e1, void* e2);
-
+/*******************************************************************************************************/
 /** \brief Imprime todos los empleados que contiene el LinkedList*
  *
  * \param pListEmployee LinkedList*
@@ -45,7 +39,8 @@ int  employee_compararPorNombre(void* e1, void* e2);
  * \param pListEmployee LinkedList*
  * \return int index del id a eliminar
  *
- */int employee_darIDdeBaja(LinkedList* );
+ */
+ int employee_darIDdeBaja(LinkedList* pListEmployee,int* indexID);
 
 /** \brief Pide un id al usuario, verifica que exista, muestra mensajes de error en caso de que no y devuelve el indice del ID buscado
  *
@@ -102,5 +97,54 @@ int employee_cargarEmpleado(LinkedList* pArrayListEmployee);
  *
  */
 int guardarFormatoTexto(LinkedList* pArrayListEmployee, FILE* pFile, int len);
+
+/**
+ * @fn void employee_mostrarUnEmpleado(Employee*)
+ * @brief muestra los datos de un empleado especifico
+ *
+ * @param empleado
+ */
+void employee_mostrarUnEmpleado(Employee* empleado);
+
+/**
+ * @fn int employee_compararPorNombre(void*, void*)
+ * @brief trae por parametros los datos de dos empleados para comparar los nombres y ordenarlos
+ *
+ * @param  e1
+ * @param  e2
+ * @return int Retorna stmcp
+ */
+int  employee_compararPorNombre(void* e1, void* e2);
+
+/**
+ * @fn int employee_compararPorSueldo(void*, void*)
+ * @brief trae por parametros los datos de dos empleados para comparar los sueldos y ordenarlos
+ *
+ * @param  e1
+ * @param  e2
+ * @return int Retorna [1] si los cambia [-1] en caso de que no
+ */
+int  employee_compararPorSueldo(void* , void* );
+
+/**
+ * @fn int employee_compararPorHoras(void*, void*)
+ * @brief trae por parametros los datos de dos empleados para comparar las horas y ordenarlas
+ *
+ * @param  e1
+ * @param  e2
+ * @return int Retorna [1] si los cambia [-1] en caso de que no
+ */
+int  employee_compararPorHoras(void* , void*);
+
+/**
+ * @fn int employee_compararPorId(void*, void*)
+ * @brief trae por parametros los datos de dos empleados para comparar los id y ordenarlas
+ *
+ * @param  e1
+ * @param  e2
+ * @return int Retorna [1] si los cambia [-1] en caso de que no
+ */
+int  employee_compararPorId(void* , void*);
+
 
 #endif // employee_H_INCLUDED

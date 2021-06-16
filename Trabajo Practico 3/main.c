@@ -86,7 +86,6 @@ int main()
 						if(controller_addEmployee(listaEmpleados))
 						{
 							printf("\nEmpleado cargado exitosamente.\n");
-							//cargoAlta = 1;
 							cargoAMB = 1;
 						}
 						else
@@ -101,16 +100,15 @@ int main()
 					system("pause");
                 break;
 
-                //EDITAR EMPLEADOS
+                //MODIFICAR EMPLEADOS
                 case 4:
                     if(ll_isEmpty(listaEmpleados) == 0)
                     {
                         controller_ListEmployee(listaEmpleados);
 
-                        if(controller_editEmployee(listaEmpleados))
+                        if(controller_editEmployee(listaEmpleados) == 1)
                         {
                             printf("\nEmpleado modificado exitosamente.\n");
-                           // cargoModificacion = 1;
                             cargoAMB = 1;
                         }
                         else
@@ -134,7 +132,6 @@ int main()
                         if(controller_removeEmployee(listaEmpleados))
                         {
                             printf("\nEmpleado eliminado exitosamente.\n");
-                            //cargoBaja = 1;
                             cargoAMB = 1;
                         }
                         else

@@ -26,7 +26,6 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
     sueldo          = atof(sueldoStr);
     pEmpleado       = employee_new();
 
-    //pasarlo a funcion
     if(pEmpleado != NULL)
     {
         if(employee_setId(pEmpleado,id))
@@ -290,19 +289,19 @@ void employee_mostrarTodosLosEmpleados(LinkedList* pListEmployee)
 }//fin funcion employee_mostrarTodosLosEmpleados
 
 /* ********************************************************************************** */
-int employee_darIDdeBaja(LinkedList* pListEmployee)
+int employee_darIDdeBaja(LinkedList* pListEmployee,int* indexID)
 {
     int retorno = -1;
     int idIngresado;
-    int indexIdAEliminar;
+    //int indexIdBuscado;
     int lengthListEmployee = ll_len(pListEmployee);
 
     get_ValidarInt(&idIngresado,"\nIngrese ID del empleado a dar de baja: ","\nERROR Ingrese un número: ","\ERROR.Ingrese un ID existente:",0,lengthListEmployee);
-    employee_buscarPorID(pListEmployee,idIngresado,&indexIdAEliminar);
-    if(indexIdAEliminar != -1)
-    {
-       retorno = indexIdAEliminar;
-    }
+    employee_buscarPorID(pListEmployee,idIngresado,indexID);
+  //  if(indexIdBuscado != -1)
+  //  {
+  //     retorno = indexIdBuscado;
+  //  }
     return retorno;
 }//fin funcion employee_darIDdeBaja
 
@@ -326,7 +325,7 @@ int employee_buscarPorID(LinkedList* pListEmployee,int idIngresado, int* indexId
     int lengthListEmployee = ll_len(pListEmployee);
     *indexIdBuscado = -1;
 
-    for(int i = 0; i < lengthListEmployee; i++)
+    for(int i = 0; i < lengthListEmployee+1; i++)
     {
         AuxEmpleado = (Employee*)ll_get(pListEmployee,i);
         employee_getId(AuxEmpleado,&idAux);
@@ -344,10 +343,10 @@ int employee_buscarPorID(LinkedList* pListEmployee,int idIngresado, int* indexId
 int employee_cargarEmpleado(LinkedList* pArrayListEmployee)
 {
     Employee* nuevoEmpleado;
-    char nombreIngresado[128] ;
+    char nombreIngresado[128];
     int horasIngresadas;
     int sueldoIngresado;
-    int retorno = 0;
+    int retorno;
     int id;
 
     nuevoEmpleado = employee_new();
@@ -365,7 +364,8 @@ int employee_cargarEmpleado(LinkedList* pArrayListEmployee)
         employee_setId(nuevoEmpleado,id);
 
         ll_add(pArrayListEmployee,nuevoEmpleado);
-        retorno = 1;
+        //printf("%d",id);
+        retorno = id;
     }//fin if NULL
     return retorno;
 }//fin funcion employee_cargarEmpleado
