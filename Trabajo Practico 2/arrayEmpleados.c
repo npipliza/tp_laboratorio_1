@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "arrayEmpleados.h"
-#include "utn.h"
+#include "validaciones_TP2.h"
 
+eEmpleados listaEmpleados[T];
 //ID AUTOINCREMENTAL
 int idIncremental = 999;
 
@@ -28,7 +29,7 @@ int obtenerIDdeEmpleado()
 
 /************************************************************************************/
 int obtenerUltimoIDdeEmpleado()
-{
+{//INCREMENTA VARIABLE ESTATICA CADA VEZ QUE SE LLAMA ESTA FUNCION
 	return idIncremental;
 }
 
@@ -97,14 +98,19 @@ int buscarEmpleadoPorID(eEmpleados listaEmpleados[], int TAM, int ID)
 /************************************************************************************/
 void mostrarUnEmpleado(eEmpleados empleado)
 {
-		if(empleado.isEmpty == OCUPADO)
-		{
-			printf("%2d %10s %16s  %15.2f %10d \n", empleado.idEmpleado,
-													 empleado.nombre,
-													 empleado.apellido,
-													 empleado.salario,
-													 empleado.sector);
-		}
+	//int idActual = obtenerUltimoIDdeEmpleado();
+	if(empleado.isEmpty == OCUPADO)
+	{
+		printf("\nID empleado: %d | "
+			   "Nombre: %s | "
+			   "Apellido: %s | "
+			   "Salario: %.2f | "
+			   "Sector: %d \n ", empleado.idEmpleado,
+			   	   	   	   	   	 empleado.nombre,
+							     empleado.apellido,
+			   	   	   	   	     empleado.salario,
+								 empleado.sector);
+	}
 }
 
 /************************************************************************************/
@@ -114,8 +120,7 @@ int mostrarTodosLosEmpleados(eEmpleados listaEmpleados[], int TAM)
 	int rtn = 0;
 	int cantidad = 0;
 
-	printf("\t\t -----> LISTA DE EMPLEADOS <----- \n");
-	printf("\nID \t NOMBRE\t\t APELLIDO\t SUELDO\t \tSECTOR\n");
+	printf("\t -----> LISTA DE EMPLEADOS <----- \n");
 	//SI EXISTE EL ARRAY Y EL LIMITE ES VALIDO
 	if(listaEmpleados != NULL && TAM > 0)
 	{
@@ -138,16 +143,49 @@ int mostrarTodosLosEmpleados(eEmpleados listaEmpleados[], int TAM)
 }
 
 /************************************************************************************/
+int mostrarEmpleadosDadosDeBaja(eEmpleados listaEmpleados[], int TAM)
+{
+	int i;
+	int rtn = 0;
+	int cantidad = 0;
+	//CABECERA
+	printf("\t> empleado\n");
+	printf("%5s\n\n", "ID"); //AGREGAR TITULOS DE COLUMNA (QUITAR DE VER QUE NO ES NECESARIO)
+
+	//SI EXISTE EL ARRAY Y EL LIMITE ES VALIDO
+	if(listaEmpleados != NULL && TAM > 0)
+	{
+		for(i = 0; i < TAM; i++)
+		{//PREGUNTO POR SU ESTADO "BAJA"
+			if(listaEmpleados[i].isEmpty == BAJA)
+			{//MUESTRO UN SOLO Gen
+				mostrarUnEmpleado(listaEmpleados[i]);
+				//CONTADOR DE Gen
+				cantidad++;
+			}
+		}
+	}
+	//SI CANTIDAD == 0 - NO HUBO Gen PARA MOSTRAR (ARRAY SIN BAJAS)
+	if(cantidad > 0)
+	{
+		rtn = 1;
+	}
+	return rtn;
+}
+
+/************************************************************************************/
 eEmpleados cargarDatosEmpleado(void)
 {
 	eEmpleados auxiliar;
-
+	/** CARGAR DATOS NECESARIOS PARA EL ALTA*/
+	/** IMPORTANTE - NO CARGAR ID NI ESTADO - SE HACE EN EL ALTA */
 	auxiliar.idEmpleado = obtenerIDdeEmpleado();
+    //ValidarIdDelProducto(listaEmpleados, TamE, auxiliar.idEmpleado);
 
-	utn_getPalabra(auxiliar.nombre ,sizeof(auxiliar.nombre), "\nIngrese nombre: ", "\nERROR: Ingrese sólo letras. \n", 20);
-	utn_getPalabra(auxiliar.apellido ,sizeof(auxiliar.apellido ), "Ingrese apellido: ", "\nERROR: Ingrese sólo letras. \n", 20);
-	utn_getNumeroFlotante(&auxiliar.salario,"Ingrese salario: ","\nERROR: Ingrese salario válido.\n",100,999999,10);
-	utn_getNumero(&auxiliar.sector,"Ingrese sector: ","\nERROR: Ingrese sector válido.\n",1,50,10);
+    getStringWithNumbers(auxiliar.nombre,sizeof(auxiliar.nombre),"***** OPCIÓN ALTA ***** \nIngrese nombre del empleado: ","ERROR. Ingrese nombre del empleado: ");
+    getStringWithNumbers(auxiliar.apellido,sizeof(auxiliar.apellido),"Ingrese apellido del empleado: ","ERROR. Ingrese apellido del empleado: ");
+    getFloatNew(auxiliar.salario,"Ingrese salario del empleado: ","ERROR. Ingrese salario del empleado: ");
+    getStringWithNumbers(auxiliar.sector,sizeof(auxiliar.sector),"Ingrese sector del empleado: ","ERROR. Ingrese sector del empleado: ");
 
     auxiliar.isEmpty = OCUPADO;
 
@@ -160,7 +198,10 @@ eEmpleados modificarUnEmpleado(eEmpleados empleado)
 	int mostrarOpciones;
 
 	eEmpleados auxiliar = empleado;
-
+	/** MODIFICAR DATOS NECESARIOS PARA EL "MODIFICAR" */
+	/** IMPORTANTE - MODIFICAR EL AUXILIAR QUE ES LA COPIA DEL ORIGINAL */
+	//auxiliar.idEmpleado = obtenerIDdeEmpleado();
+    //ValidarIdDelProducto(listaEmpleados, TamE, auxiliar.idEmpleado);
 	do//creo bucle del menu
 	{
 		printf("\nINGRESE OPCIÓN A MODIFICAR: ************************************\n"
@@ -175,23 +216,22 @@ eEmpleados modificarUnEmpleado(eEmpleados empleado)
 		switch(mostrarOpciones)
 		{
 			case 1:
-				utn_getPalabra(auxiliar.nombre ,sizeof(auxiliar.nombre), "\nIngrese nombre: ", "\nERROR: Ingrese sólo letras. \n", 20);
+				getStringWithNumbers(auxiliar.nombre,sizeof(auxiliar.nombre),"\nIngrese nombre del empleado: ","ERROR. Ingrese nombre del empleado: ");
 			break;
 
 			case 2:
-				utn_getPalabra(auxiliar.apellido ,sizeof(auxiliar.apellido ), "Ingrese apellido: ", "\nERROR: Ingrese sólo letras. \n", 20);
+				getStringWithNumbers(auxiliar.apellido,sizeof(auxiliar.apellido),"Ingrese apellido del empleado: ","ERROR. Ingrese apellido del empleado: ");
 			break;
 
 			case 3:
-				utn_getNumeroFlotante(&auxiliar.salario,"Ingrese salario: ","\nERROR: Ingrese salario válido.\n",100,999999,10);
+				//int ValidarNumero(char caracteres[])
+				ValidarNumero(auxiliar.salario,"Ingrese salario del empleado: ","ERROR. Ingrese salario del empleado: ");
 			break;
 
 			case 4:
-				utn_getNumero(&auxiliar.sector,"Ingrese sector: ","\nERROR: Ingrese sector válido.\n",1,50,10);
+				getStringWithNumbers(auxiliar.sector,sizeof(auxiliar.sector),"Ingrese sector del empleado: ","ERROR. Ingrese sector del empleado: ");
 			break;
 		}
-
-
 	}while(mostrarOpciones != 0);
 
 	auxiliar.isEmpty = OCUPADO;
@@ -210,9 +250,9 @@ int modificacionEmpleado(eEmpleados listaEmpleados[], int TAM)
 	int bandera = 0;
 	eEmpleados auxiliar;
 
-	//LISTO TODOS LOS EMPLEADOS
+	//LISTO TODOS LOS Gen
 	if(mostrarTodosLosEmpleados(listaEmpleados, TAM) != 0)
-	{//BANDERA EN 1 SI HAY EMPLEADOS DADOS DE ALTA PARA LISTAR
+	{//BANDERA EN 1 SI HAY Gen DADOS DE ALTA PARA LISTAR
 		bandera = 1;
 	}
 	else
@@ -220,17 +260,17 @@ int modificacionEmpleado(eEmpleados listaEmpleados[], int TAM)
 		printf("\n * NO EXISTEN EMPLEADOS DADOS DE ALTA.\n");
 	}
 
-	//SI HAY EMPLEADOS PARA MODIFICAR
+	//SI HAY Gen PARA MODIFICAR
 	if(bandera == 1)
 	{//PIDO ID A MODIFICAR
 		printf("\n***** OPCIÓN MODIFICAR ***** \n");
 		do
 		{
 			opcion = 0;
-			printf("INGRESE EL ID.\n");
+			printf("ingrese el ID.\n");
 			scanf("%d", &idEmpleado);
 
-		//OBTENGO INDEX DEL ARRAY DE EMPLEADOS A MODIFICAR
+		//OBTENGO INDEX DEL ARRAY DE Gen A MODIFICAR
 		index = buscarEmpleadoPorID(listaEmpleados, TAM, idEmpleado);
 
 			//BUSCO INDEX POR ID EN ARRAY
@@ -238,7 +278,7 @@ int modificacionEmpleado(eEmpleados listaEmpleados[], int TAM)
 			{
 				printf("NO EXISTE ID.\n");
 
-			printf("¿INGRESAR OTRO ID? \n SI: 1\n NO: 2\n");
+			printf("¿Ingresar otro ID? \n SI: 1\n NO: 2\n");
 			scanf("%d", &opcion);
 
 				if(opcion == 2)
@@ -252,9 +292,9 @@ int modificacionEmpleado(eEmpleados listaEmpleados[], int TAM)
 
 		if(index != -1)
 		{
-			//LLAMO A FUNCION QUE MODIFICA EMPLEADOS
+			//LLAMO A FUNCION QUE MODIFICA Gen
 		auxiliar = modificarUnEmpleado(listaEmpleados[index]);
-			printf("¿CONFIRMA LA MODIFICACIÓN DEL EMPLEADO? \n Confirmar: 1\n Cancelar:  2\n");
+			printf("¿Confirma la modificación del empleado? \n Confirmar: 1\n Cancelar:  2\n");
 			scanf("%d", &opcion1);
 
 			if(opcion1 == 1)
@@ -281,9 +321,9 @@ int bajaEmpleado(eEmpleados listaEmpleados[], int TAM)
 	int opcion;
 	int opcion1;
 
-	//LISTO TODOS LOS EMPLEADOS
+	//LISTO TODOS LOS Gen
 	if(mostrarTodosLosEmpleados(listaEmpleados, TAM) != 0)
-	{//BANDERA EN 1 SI HAY EMPLEADOS DADOS DE ALTA PARA LISTAR
+	{//BANDERA EN 1 SI HAY Gen DADOS DE ALTA PARA LISTAR
 		bandera = 1;
 	}
 	else
@@ -300,6 +340,7 @@ int bajaEmpleado(eEmpleados listaEmpleados[], int TAM)
 			printf("ingrese el ID.\n");
 			scanf("%d", &idEmpleado);
 
+			//idEmpleado = 1; /**USAR FUNCION GET_INT DE LIBRERIA DE INPUTS*/
 			//OBTENGO INDEX DEL ARRAY DE EMPLEADOS A DAR DE BAJA
 			index = buscarEmpleadoPorID(listaEmpleados, TAM, idEmpleado);
 
@@ -319,7 +360,6 @@ int bajaEmpleado(eEmpleados listaEmpleados[], int TAM)
 
 		if(index != -1)
 		{
-			printf("\nID \t NOMBRE\t\t APELLIDO\t SUELDO\t \tSECTOR\n");
 			mostrarUnEmpleado(listaEmpleados[index]);
 
 			printf("\n¿Confirma la baja del empleado? \n  Confirmar: 1\n  Cancelar: 2\n");
@@ -364,15 +404,6 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 								listaEmpleados[i] = listaEmpleados[j];
 								listaEmpleados[j] = aux;
 							}
-							else
-							{
-								if(listaEmpleados[j].sector > listaEmpleados[i].sector)
-								{
-									aux               = listaEmpleados[j];
-									listaEmpleados[j] = listaEmpleados[i];
-									listaEmpleados[i] = aux;
-								}
-							}
 						}
 					}
 				}
@@ -392,15 +423,6 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 								listaEmpleados[i] = listaEmpleados[j];
 								listaEmpleados[j] = aux;
 							}
-							else
-							{
-								if(listaEmpleados[j].sector > listaEmpleados[i].sector)
-								{
-									aux               = listaEmpleados[j];
-									listaEmpleados[j] = listaEmpleados[i];
-									listaEmpleados[i] = aux;
-								}
-							}
 						}
 					}
 				}
@@ -409,7 +431,6 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 
 			default:
 				//CRITERIO DE ORDENAMIENTO MAL INGRESADO
-				printf("ERROR al cargar criterio de ordenamiento.\n");
 				rtn = 0;
 			break;
 		}//fin funcion switch
@@ -417,41 +438,4 @@ int ordenaEmpleadosPorApellido(eEmpleados listaEmpleados[], int TAM, int criteri
 	return rtn;
 }
 
-/************************************************************************************/
-int informeSalarios(eEmpleados listaEmpleados[], int len)
-{
-	int rtn              = 0;
-	int   i;
-	float acumuladorS    = 0;
-	int   contadorE      = 0;
-	int   superaPromedio = 0;
-	float promedio;
 
-	if(listaEmpleados != NULL && len > 0)
-	{
-		for(i = 0; i < len; i++)
-		{
-			if(listaEmpleados[i].isEmpty == OCUPADO)
-			{
-				acumuladorS = acumuladorS + listaEmpleados[i].salario;
-				contadorE ++;
-			}
-		}
-	}
-
-	promedio = acumuladorS / contadorE;
-
-	printf("\nPROMEDIO DE SALARIOS: $ %.2f\n", promedio);
-	printf("SUMA TOTAL DE SALARIOS: $ %.2f\n", acumuladorS);
-
-	for(i = 0; i < len; i++)
-	{
-		if(listaEmpleados[i].salario > promedio)
-		{
-			superaPromedio ++;
-		}
-	}
-	printf("EMPLEADOS CON SUELDO POR ENCIMA DEL PROMEDIO: %d \n", superaPromedio);
-
-	return rtn;
-}

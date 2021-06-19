@@ -1,16 +1,24 @@
 /* ============================================================================
     Trabajo Practico : 2
-    Division         : 1ro B
+    Division         : 1ro C
     Alumna           : Pipliza Nadia
    ============================================================================ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "arrayEmpleados.h"
-#include "utn.h"
-#define  TamE 1000 // 1000 empleados
+#include "validaciones_TP2.h"
+#define  TamE 5
 int mostrarOpciones;
 
+
+ /**
+ * @fn int main(void)
+ * @brief
+ *
+ * @return 0
+ */
 int main(void)
 {
 	int mostrarOpciones;
@@ -24,18 +32,19 @@ int main(void)
 	eEmpleados empleado[TamE];
 	InicializarEmpleados(empleado, TamE);
 
-	printf("INICIO PROGRAMA ADMINISTRADOR DE NÓMINA DE EMPLEADOS... \n");
+	printf("INICIO... \n");
 	do//creo bucle del menu
 	{
-		mostrarOpciones = PedirEntero("\nINGRESE UNA OPCIÓN: ***********************************************\n"
-									  "1. ALTA Empleado.\n"
-									  "2. BAJA Empleado.\n"
-									  "3. MODIFICAR Empleado.\n"
-				   	   	   	   	   	  "4. MOSTRAR TOTAL Empleados.\n"
-			       	   	   	   	   	  "5. MOSTRAR Empleados ordenados por APELLIDO.\n"
-									  "6. INFORME salarios.\n"
-				   	   	   	   	   	  "0. SALIR\n"
-				   	   	   	   	   	  "Elija una opción: ","\nError. Ingrese número de opción: ");
+		printf("\nINGRESE UNA OPCIÓN: ***********************************************\n"
+			   "1. ALTA Empleado.\n"
+			   "2. BAJA Empleado.\n"
+			   "3. MODIFICAR Empleado.\n"
+			   "4. MOSTRAR TOTAL Empleados.\n"
+		       "5. MOSTRAR Empleados ordenados por APELLIDO.\n"
+			   "6. INFORME salarios.\n"
+			   "0. SALIR\n"
+			   "Elija una opción: \n");
+		scanf("%d", &mostrarOpciones);
 
 		switch(mostrarOpciones)
 		{
@@ -45,13 +54,12 @@ int main(void)
 				indexUltimo = altaEmpleado(empleado, TamE);
 				if(indexUltimo != -1)
 				{
-					printf("\n * EMPLEADO DADO DE ALTA EXITOSAMENTE\n");
-					printf("\nID \t NOMBRE\t\t APELLIDO\t SUELDO\t \tSECTOR\n");
+					printf(" * EMPLEADO DADO DE ALTA EXITOSAMENTE\n");
 					mostrarUnEmpleado(empleado[indexUltimo]);
 				}
 				else
 				{
-					printf("\n * ERROR. SIN ESPACIO PARA ALMACENAR MAS EMPLEADOS\n");
+					printf(" * ERROR. SIN ESPACIO PARA ALMACENAR MAS EMPLEADOS\n");
 				}
 				system("pause");
 			break;
@@ -92,6 +100,7 @@ int main(void)
 
 			//MOSTRAR EMPLEADOS ORDENADOS POR APELLIDO
 			case 5://1. Listado de los empleados ordenados alfabéticamente por Apellido y Sector.
+				//criterioDeOrdenamiento = 1; //PEDIR CRITERIO DE ORDENAMIENTO
 				printf("\n * SELECCIONE: \n 1: A-Z \n 2: Z-A \n");
 				scanf("%d", &opciones);
 
@@ -111,16 +120,7 @@ int main(void)
 
 			//INFORMAR TOTAL Y PROMEDIO DE SALARIOS / CANTIDAD DE EMPLEADOS QUE SUPERAN EL PROMEDIO.
 			case 6:
-				//int retorno;
-
-				if(criterioDeOrdenamiento != 0)
-				{
-					informeSalarios(empleado, TamE);
-				}
-				else
-				{
-					printf("\n * CANCELADO\n");
-				}
+				mostrarTodosLosEmpleados(empleado, TamE);
 				system("pause");
 			break;
 		}//fin switch mostrarOpciones

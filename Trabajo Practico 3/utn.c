@@ -209,6 +209,43 @@ int utn_getString(char* pResultado, int longitud, char mensaje[], char mensajeEr
 }
 
 /* ******************************************************************************************************************************** */
+//int esNombre(char* palabra, int longitud)
+/*void pedirNombre(char texto[],char textoError[],int max, char input[])
+{
+    char auxiliar[500];
+
+    printf("%s", texto);
+    fflush(stdin);
+    scanf("%[^\n]",auxiliar);
+
+    while(!validarNombre(auxiliar, max) || strlen(auxiliar) > max-1)
+    {
+        printf("%s", textoError);
+        fflush(stdin);
+        scanf("%[^\n]", auxiliar);
+    }
+    strcpy(input, auxiliar);*/
+int esNombre(char texto[], char textoError[], int longitud, char* input)
+{
+	int i = 0;
+	int retorno;
+	retorno = -1;
+
+	if(input != NULL && longitud > 0)
+	{
+		for(i=0;i<longitud && input[i] != '\0' ;i++)
+		{
+			if((input[i] != ' ') && (input[i] < 'A' || input[i] > 'Z') && (input[i] < 'a' || input[i] > 'z'))
+			{
+				retorno = 0;
+				break;
+			}
+		}
+	}
+
+	return retorno;
+}
+/* ******************************************************************************************************************************** */
 int esPalabra(char* palabra, int longitud)
 {
 	int i = 0;
@@ -219,7 +256,7 @@ int esPalabra(char* palabra, int longitud)
 	{
 		for(i=0;i<longitud && palabra[i] != '\0' ;i++)
 		{
-			if((palabra[i] < 'A' || palabra[i] > 'Z') && (palabra[i] < 'a' || palabra[i] > 'z'))
+			if((palabra[i] != ' ' ) && (palabra[i] < 'A' || palabra[i] > 'Z') && (palabra[i] < 'a' || palabra[i] > 'z'))
 			{
 				retorno = 0;
 				break;
@@ -365,7 +402,7 @@ int validarNombre(char* cadena,int length)
     {
         for(int i=0; cadena[i]!='\0' && i<length; i++)
         {
-            if( (cadena[i]<'A' || cadena[i]>'Z') && (cadena[i]<'a' || cadena[i]>'z') && cadena[i] != ' ' && cadena[i] != '-' )
+            if( (cadena[i]<'A' || cadena[i]>'Z') && (cadena[i]<'a' || cadena[i]>'z') && cadena[i] != ' ')
             {
                 retorno=0;
             }
@@ -377,11 +414,14 @@ int validarNombre(char* cadena,int length)
 /* ******************************************************************************************************************************** */
 void pedirNombre(char texto[],char textoError[],int max, char input[])
 {
+	int i;
     char auxiliar[500];
+    int retorno;
 
     printf("%s", texto);
     fflush(stdin);
     scanf("%[^\n]",auxiliar);
+
 
     while(!validarNombre(auxiliar, max) || strlen(auxiliar) > max-1)
     {
@@ -390,4 +430,5 @@ void pedirNombre(char texto[],char textoError[],int max, char input[])
         scanf("%[^\n]", auxiliar);
     }
     strcpy(input, auxiliar);
+
 }
