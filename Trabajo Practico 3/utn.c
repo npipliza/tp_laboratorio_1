@@ -3,6 +3,7 @@
 #include "utn.h"
 #include <string.h>
 
+
 int myGets(char* cadena, int longitud)
 {
 	int retorno=-1;
@@ -213,11 +214,9 @@ int utn_getString(char* pResultado, int longitud, char mensaje[], char mensajeEr
 /*void pedirNombre(char texto[],char textoError[],int max, char input[])
 {
     char auxiliar[500];
-
     printf("%s", texto);
     fflush(stdin);
     scanf("%[^\n]",auxiliar);
-
     while(!validarNombre(auxiliar, max) || strlen(auxiliar) > max-1)
     {
         printf("%s", textoError);
@@ -414,9 +413,7 @@ int validarNombre(char* cadena,int length)
 /* ******************************************************************************************************************************** */
 void pedirNombre(char texto[],char textoError[],int max, char input[])
 {
-	int i;
     char auxiliar[500];
-    int retorno;
 
     printf("%s", texto);
     fflush(stdin);
